@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
@@ -12,12 +13,30 @@ public class Movement : MonoBehaviour
         movePoint.parent = null;
     }
 
-    void Update()
+    public void moveForward()
+    {
+        if (!Physics2D.OverlapCircle(movePoint.position + new Vector3(0f, 1f, 0f), 0.2f, whatStopMovement))
+        {
+            movePoint.position += new Vector3(0f, 1f, 0f);
+        }
+        transform.position = Vector3.MoveTowards(transform.position, movePoint.position, movementSpeed );
+    }
+
+    public void moveBackward()
+    {
+        if (!Physics2D.OverlapCircle(movePoint.position + new Vector3(0f, -1f, 0f), 0.2f, whatStopMovement))
+        {
+            movePoint.position += new Vector3(0f, -1f, 0f);
+        }
+        transform.position = Vector3.MoveTowards(transform.position, movePoint.position, movementSpeed);
+    }
+    /*void Update()
     {
         transform.position = Vector3.MoveTowards(transform.position, movePoint.position, movementSpeed * Time.deltaTime);
         
         if (Vector3.Distance(transform.position, movePoint.position) <= 0.05f)
         {
+           
             if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) == 1f)
             {
                 if (!Physics2D.OverlapCircle(movePoint.position + new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f), 0.2f, whatStopMovement))
@@ -34,5 +53,5 @@ public class Movement : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
 }

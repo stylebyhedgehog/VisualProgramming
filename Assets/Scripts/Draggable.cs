@@ -5,34 +5,61 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 
-public class Draggable : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IDropHandler
+public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IDropHandler, IEndDragHandler
 {
-    private GameObject clonedGO;
-    [SerializeField] private int canvas;
-    [SerializeField] private Canvas canvass;
+    private GameObject go;
+    [SerializeField] private Canvas canvas;
     [SerializeField] protected GameObject block;
-    [SerializeField] private CanvasGroup canvasGroup;
+    [SerializeField] protected GameObject temp;
+    public CanvasGroup canvasGroup;
+    [SerializeField] private GameObject executablePanel;
+    public bool canDuplicate = true;
 
+    private Vector3 GetMousePos()
+    {
+        var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0;
+        return mousePos;
+    }
     public void OnBeginDrag(PointerEventData eventData)
     {
-        clonedGO = Instantiate(block, gameObject.transform);
+        if (canDuplicate)
+        {
+            go = Instantiate(gameObject, GetMousePos(), Quaternion.identity, executablePanel.transform);
+            go.name = gameObject.name[0] + IdDatabase.Instance.getId().ToString();
+
+        }
+        else { go = gameObject; }
+
+        go.GetComponent<Draggable>().canDuplicate = false;
+
         canvasGroup.blocksRaycasts = false;
         canvasGroup.alpha = 0.6f;
+
+
+       
+
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        clonedGO.GetComponent<RectTransform>().anchoredPosition += eventData.delta / canvas;
+        go.GetComponent<RectTransform>().anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
 
     public void OnDrop(PointerEventData eventData)
     {
-
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+
+        if (go.GetComponent<Sticky>() == null)
+        {
+            go.AddComponent<Sticky>();
+
+        }
         canvasGroup.blocksRaycasts = true;
+
         canvasGroup.alpha = 1f;
     }
 
