@@ -22,4 +22,14 @@ public class PlayerController : MonoBehaviour
     {
         movement.moveBackward();
     }
+
+    public void rotateR()
+    {
+        movement.rotateRight();
+    }
+
+    public void rotateL ()
+    {
+        movement.rotateLeft();
+    }
 }

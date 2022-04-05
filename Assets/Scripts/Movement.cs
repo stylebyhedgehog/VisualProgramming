@@ -8,27 +8,36 @@ public class Movement : MonoBehaviour
     public float movementSpeed = 5f;
     public Transform movePoint;
     public LayerMask whatStopMovement;
+
     void Start()
     {
         movePoint.parent = null;
     }
 
+    public void rotateRight()
+    {
+        transform.Rotate(new Vector3(0,0,-90) , Space.World);
+    }
+    public void rotateLeft ()
+    {
+        transform.Rotate(new Vector3(0, 0, 90), Space.World);
+    }
     public void moveForward()
     {
-        if (!Physics2D.OverlapCircle(movePoint.position + new Vector3(0f, 1f, 0f), 0.2f, whatStopMovement))
+        if (!Physics2D.OverlapCircle(movePoint.position + transform.up, 0.2f, whatStopMovement))
         {
-            movePoint.position += new Vector3(0f, 1f, 0f);
+            movePoint.position += transform.up;
         }
-        transform.position = Vector3.MoveTowards(transform.position, movePoint.position, movementSpeed );
+        transform.position = Vector3.MoveTowards(transform.position, movePoint.position,1) ;
     }
 
     public void moveBackward()
     {
-        if (!Physics2D.OverlapCircle(movePoint.position + new Vector3(0f, -1f, 0f), 0.2f, whatStopMovement))
+        if (!Physics2D.OverlapCircle(movePoint.position - transform.up, 0.2f, whatStopMovement))
         {
-            movePoint.position += new Vector3(0f, -1f, 0f);
+            movePoint.position -= transform.up;
         }
-        transform.position = Vector3.MoveTowards(transform.position, movePoint.position, movementSpeed);
+        transform.position = Vector3.MoveTowards(transform.position, movePoint.position, 1);
     }
     /*void Update()
     {

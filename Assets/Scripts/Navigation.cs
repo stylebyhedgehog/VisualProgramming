@@ -10,10 +10,22 @@ public class Navigation : MonoBehaviour
     void Start()
     {
         InitButtons();
+        CodePanel.closeBtnClicked += showCodePanelButton;
     }
 
     private void InitButtons()
     {
-        openCodePanelBtn.onClick.AddListener(()=>codePanel.SetActive(true));
+        openCodePanelBtn.onClick.AddListener(()=>onCodePanelButtonClicked());
+    }
+    
+    private void onCodePanelButtonClicked()
+    {
+        codePanel.SetActive(true);
+        openCodePanelBtn.gameObject.SetActive(false);
+    }
+
+    private void showCodePanelButton()
+    {
+        openCodePanelBtn.gameObject.SetActive(true);
     }
 }
