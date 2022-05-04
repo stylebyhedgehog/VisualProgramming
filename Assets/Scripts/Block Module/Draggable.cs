@@ -13,6 +13,9 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IDropHa
     public CanvasGroup canvasGroup;
     [SerializeField] private GameObject executablePanel;
     public bool canDuplicate = true;
+
+    [SerializeField] private GameObject leftTop;
+    [SerializeField] private GameObject rightBot;
     private Vector3 GetMousePos()
     {
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -42,36 +45,23 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IDropHa
 
     public void OnDrop(PointerEventData eventData)
     {
-     
+       
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-
-        RectTransform rt = executablePanel.GetComponent<RectTransform>();
-        float objWidth = rt.rect.width;
-        float objHheight = rt.rect.height;
-        var ox = go.GetComponent<RectTransform>().anchoredPosition.x;
-        var oy = go.GetComponent<RectTransform>().anchoredPosition.y;
-        Debug.Log(ox);
-        Debug.Log(oy);
-        if (!(ox > 0 && ox < objWidth && -oy < 0 && -oy < objHheight))
-        {
-            Destroy(go);
-            Debug.Log("DEL");
-        }
-        else
-        {
-            if (go.GetComponent<Sticky>() == null)
-            {
-                go.AddComponent<Sticky>();
-            }
-            go.GetComponent<Draggable>().canvasGroup.blocksRaycasts = true;
-            
-        }
+        go.GetComponent<Draggable>().canvasGroup.blocksRaycasts = true;
+   
         canvasGroup.blocksRaycasts = true;
         canvasGroup.alpha = 1f;
 
+        if (leftTop.transform.position.x >= go.transform.position.x
+            || leftTop.transform.position.y <= go.transform.position.y
+            || rightBot.transform.position.x <= go.transform.position.x
+            || rightBot.transform.position.y >= go.transform.position.y)
+        {
+            Destroy(go);
+        }
     }
 
 }

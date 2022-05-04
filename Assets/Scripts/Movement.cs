@@ -6,14 +6,22 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     public float movementSpeed = 5f;
+    //public Transform movePointBackUp;
     public Transform movePoint;
     public LayerMask whatStopMovement;
 
     void Start()
     {
+        //movePointBackUp = Instantiate(movePoint.gameObject, gameObject.transform).transform;
         movePoint.parent = null;
+        DontDestroyOnLoad(movePoint.gameObject);
     }
-
+    private void OnLevelWasLoaded(int level)
+    {
+        //movePointBackUp = Instantiate(movePointBackUp.gameObject, gameObject.transform).transform;
+        //movePoint = Instantiate(movePointBackUp.gameObject, gameObject.transform).transform;
+        //movePoint.parent = null;
+    }
     public void rotateRight()
     {
         transform.Rotate(new Vector3(0,0,-90) , Space.World);
