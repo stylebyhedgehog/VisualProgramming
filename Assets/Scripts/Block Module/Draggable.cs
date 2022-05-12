@@ -29,7 +29,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IDropHa
         if (canDuplicate)
         {
             go = Instantiate(gameObject, GetMousePos(), Quaternion.identity, executablePanel.transform);
-            go.name = gameObject.name[0] + IdDatabase.Instance.getId().ToString();
+            go.name = gameObject.name; // IdDatabase.Instance.getId().ToString();
             go.GetComponent<Draggable>().canDuplicate = false;
 
         }
@@ -45,7 +45,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IDropHa
 
     public void OnDrop(PointerEventData eventData)
     {
-       
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -61,6 +60,11 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IDropHa
             || rightBot.transform.position.y >= go.transform.position.y)
         {
             Destroy(go);
+        }
+  
+        if (go.name == "cycle" || go.name == "condition")
+        {
+            go.transform.Find("end").gameObject.SetActive(true);
         }
     }
 

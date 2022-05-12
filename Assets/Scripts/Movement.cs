@@ -6,22 +6,22 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     public float movementSpeed = 5f;
-    //public Transform movePointBackUp;
     public Transform movePoint;
     public LayerMask whatStopMovement;
+ 
+    private void OnLevelWasLoaded(int level)
+    {
+        gameObject.transform.position = Repository_Level.Instance.GetByIndex(level).StartPosition;
+        movePoint.position = gameObject.transform.position;
+    }
 
+  
     void Start()
     {
-        //movePointBackUp = Instantiate(movePoint.gameObject, gameObject.transform).transform;
         movePoint.parent = null;
         DontDestroyOnLoad(movePoint.gameObject);
     }
-    private void OnLevelWasLoaded(int level)
-    {
-        //movePointBackUp = Instantiate(movePointBackUp.gameObject, gameObject.transform).transform;
-        //movePoint = Instantiate(movePointBackUp.gameObject, gameObject.transform).transform;
-        //movePoint.parent = null;
-    }
+
     public void rotateRight()
     {
         transform.Rotate(new Vector3(0,0,-90) , Space.World);

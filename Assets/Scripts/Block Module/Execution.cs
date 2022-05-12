@@ -1,31 +1,82 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Execution : MonoBehaviour
 {
-    CodeBlock executingBlock;
+    public static Action executionEnded;
+
+    private CodeBlock startBlock;
+    private CodeBlock currentBlock;
+
+    private bool isExecuting = false;
 
     private void Start()
     {
-        CodePanel.closeBtnClicked+= onStartButtonClick;
+        CodePanel.executeBtnClicked += onStartButtonClick;
     }
     private void onStartButtonClick()
     {
-        executingBlock = gameObject.GetComponent<CodeBlock>();
-        StartCoroutine(Execute());
+        if (!isExecuting)
+        {
+            isExecuting = true;
+            startBlock = gameObject.GetComponent<CodeBlock>();
+            currentBlock = startBlock;
+            queryActions(gameObject.transform);
+            Coroutine coroutine = StartCoroutine(Execute());
+        }
+    }
 
+    private void queryActions(Transform parent)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.gameObject.name != "mock" && child.gameObject.name != "bound")
+            {
+                CodeBlock temp = child.gameObject.GetComponent<CodeBlock>();
+                if (temp)
+                {
+                    currentBlock.setNextBlock(temp);
+                    temp.setPreviousBlock(currentBlock);
+                    currentBlock = temp;
+                }
+                queryActions(child);
+            }
+        }
     }
     private IEnumerator Execute()
     {
-        while (executingBlock.getNextBlock() != null)
+        CodeBlock codeBlock = startBlock;
+        while (codeBlock.getNextBlock() != null)
         {
-            executingBlock = executingBlock.getNextBlock();
-            executingBlock.makeAction();
-            yield return new WaitForSeconds(0.5f);
+            codeBlock = codeBlock.getNextBlock();
+            codeBlock.makeAction();
+            if (codeBlock.gameObject.name == "start" || codeBlock.gameObject.name == "end")
+            {
+                yield return new WaitForSeconds(0f);
+            }
+            else
+            {
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
+        clearConnections(gameObject.transform);
+        isExecuting = false;
+    }
+
+    private void clearConnections(Transform parent)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.gameObject.name != "mock" && child.gameObject.name != "bound")
+            {
+                CodeBlock temp = child.gameObject.GetComponent<CodeBlock>();
+                if (temp)
+                {
+                    temp.disconnectPreviousBlock();
+                }
+                clearConnections(child);
+            }
         }
     }
-  
 }

@@ -40,13 +40,19 @@ public abstract class CodeBlock: MonoBehaviour
 
     public void disconnectPreviousBlock()
     {
-        this.previousBlock.nextBlock = null;
+        if (this.previousBlock)
+        {
+            this.previousBlock.nextBlock = null;
+        }
         this.previousBlock = null;
     }
 
     public void disconnectNextBlock()
     {
-        this.nextBlock.previousBlock = null;
+        if (this.nextBlock)
+        {
+            this.nextBlock.previousBlock = null;
+        }
         this.nextBlock = null;
     }
 
