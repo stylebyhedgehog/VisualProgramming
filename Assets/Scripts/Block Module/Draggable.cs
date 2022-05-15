@@ -4,18 +4,22 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using System;
 
 public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IDropHandler, IEndDragHandler
 {
     public GameObject go;
-    [SerializeField] private Canvas canvas;
-    [SerializeField] protected GameObject block;
+    public Canvas canvas;
     public CanvasGroup canvasGroup;
-    [SerializeField] private GameObject executablePanel;
-    public bool canDuplicate = true;
+    public GameObject executablePanel;
 
-    [SerializeField] private GameObject leftTop;
-    [SerializeField] private GameObject rightBot;
+    private bool canDuplicate = true;
+
+    public GameObject leftTop;
+    public GameObject rightBot;
+
+    public static Action startBlockDropped;
+
     private Vector3 GetMousePos()
     {
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -30,6 +34,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IDropHa
         {
             go = Instantiate(gameObject, GetMousePos(), Quaternion.identity, executablePanel.transform);
             go.name = gameObject.name; // IdDatabase.Instance.getId().ToString();
+            go.GetComponent<RectTransform>().position += new Vector3(0,0.5f, 0);
             go.GetComponent<Draggable>().canDuplicate = false;
 
         }
@@ -50,7 +55,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IDropHa
     public void OnEndDrag(PointerEventData eventData)
     {
         go.GetComponent<Draggable>().canvasGroup.blocksRaycasts = true;
-   
         canvasGroup.blocksRaycasts = true;
         canvasGroup.alpha = 1f;
 
@@ -60,6 +64,11 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IDropHa
             || rightBot.transform.position.y >= go.transform.position.y)
         {
             Destroy(go);
+        }
+        else
+        {
+ 
+            startBlockDropped?.Invoke();
         }
   
         if (go.name == "cycle" || go.name == "condition")

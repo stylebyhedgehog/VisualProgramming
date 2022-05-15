@@ -2,12 +2,20 @@
 using UnityEngine;
 using MongoDB.Driver;
 using System.Collections.Generic;
+using System;
+using UnityEngine.SceneManagement;
 
 public class Repository_Level : MonoBehaviour
 {   
-    private List<Model_Level> allLevels;
+    [SerializeField]private List<Model_Level> allLevels;
+
+    private Model_Level currentLevel;
 
     public static Repository_Level Instance;
+
+    public static Action<int> newLevelUnlocked;
+    public static Action<int, int> levelChanged;
+    public static Action<Model_Level> levelLoaded;
 
     private void Awake()
     {
@@ -19,9 +27,7 @@ public class Repository_Level : MonoBehaviour
 
     private void Start()
     {
-        Model_Level lvl0 = new Model_Level(0, "Наземный мир", "Теория", new Vector3(-1, -7, 0));
-        Model_Level lvl1 = new Model_Level(1, "Наземный мир", "Теория", new Vector3(-4, -7, 0));
-        allLevels = new List<Model_Level>() { lvl0, lvl1};
+        currentLevel = allLevels[0];
     }
 
     public List<Model_Level> GetAll()
@@ -29,18 +35,40 @@ public class Repository_Level : MonoBehaviour
         return allLevels;
     } 
 
-    public Model_Level GetByIndex(int index)
+    public Model_Level GetLevelByIndex(int index)
     {
-        foreach (Model_Level model_Level in allLevels)
-        {
-            if (model_Level.Index == index)
-            {
-                return model_Level;
-            }
-        }
-        return null;
+        return allLevels[index-1];
     }
 
+    public Model_Level GetCurrentLevel()
+    {
+        return currentLevel;
+    }
 
+    public void ToNextLevel()
+    {
+        if (currentLevel.Index + 1 > SaveSystem.Instance.getCurrentUser().Level)
+        {
+            Repository_User.addScore(currentLevel.Reward);
+            Repository_User.changeLevel(currentLevel.Index + 1);
+            newLevelUnlocked?.Invoke(currentLevel.Index + 1);
+        }
+        currentLevel = allLevels[currentLevel.Index + 1];
+        LoaderScene(currentLevel.Index);
+    }
  
+    public void ToLevel(int index)
+    {
+        levelChanged?.Invoke(currentLevel.Index, index);
+        currentLevel = allLevels[index];
+        LoaderScene(index);
+    }
+
+    private void LoaderScene(int index)
+    {
+        LoadingData.sceneToLoad = "Level" + index.ToString();
+        SceneManager.LoadScene("LoadingScene");
+        levelLoaded?.Invoke(currentLevel);
+    }
+  
 }

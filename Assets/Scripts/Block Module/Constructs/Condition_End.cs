@@ -2,17 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Condition_End : MonoBehaviour
+public class Condition_End : CodeBlock
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void makeAction()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Debug.Log("condition end");
     }
 }

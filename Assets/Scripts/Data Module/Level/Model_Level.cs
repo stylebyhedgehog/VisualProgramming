@@ -1,18 +1,16 @@
 ﻿using MongoDB.Bson;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Model_Level
+[CreateAssetMenu(fileName = "Level", menuName = "ScriptableObjects/Level")]
+public class Model_Level:ScriptableObject
 {
-    public Model_Level(int index, string title, string theory, Vector3 startPosition = default)
-    {
-        Index = index;
-        Title = title;
-        Theory = theory;
-        StartPosition = startPosition;
-    }
-
-    public int Index { private set; get; }
-    public string Title { private set; get; }
-    public string Theory { private set; get; }
-    public Vector3 StartPosition { private set; get; }
+    public int Index;
+    public string Title;
+    public string Theory;
+    public Vector3 StartPosition;
+    public int Reward;
+    public bool IsAvailable;
+    public List<Block_Type_Action> newBlocks;
 }

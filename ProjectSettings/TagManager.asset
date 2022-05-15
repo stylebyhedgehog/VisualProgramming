@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Start
   - Child
+  - Basic
+  - Condition_Basis
+  - Condition_Middle
+  - Condition_Completion
   layers:
   - Default
   - TransparentFX
@@ -42,4 +46,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: TABS
+    uniqueID: 3345367265
     locked: 0

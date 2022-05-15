@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class DontDestroy : MonoBehaviour
 {
+    [SerializeField] private List<GameObject> undestroyable;
     
     void Start()
     {
-        DontDestroyOnLoad(gameObject);
+        foreach (GameObject go in undestroyable)
+        {
+            DontDestroyOnLoad(go);
+        }
     }
-
-
 }

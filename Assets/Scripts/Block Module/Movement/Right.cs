@@ -7,6 +7,6 @@ public class Right : CodeBlock
     public override void makeAction()
     {
         Debug.Log("right");
-        PlayerController.Instance.rotateR();
+        PlayerController.Instance.moveR();
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Movement : MonoBehaviour
 {
@@ -9,66 +10,75 @@ public class Movement : MonoBehaviour
     public Transform movePoint;
     public LayerMask whatStopMovement;
  
-    private void OnLevelWasLoaded(int level)
-    {
-        gameObject.transform.position = Repository_Level.Instance.GetByIndex(level).StartPosition;
-        movePoint.position = gameObject.transform.position;
-    }
-
+ 
   
     void Start()
     {
         movePoint.parent = null;
+        Repository_Level.levelLoaded += setStartPoin;
         DontDestroyOnLoad(movePoint.gameObject);
     }
 
-    public void rotateRight()
+    private void setStartPoin(Model_Level level)
     {
-        transform.Rotate(new Vector3(0,0,-90) , Space.World);
+        gameObject.transform.position = level.StartPosition;
+        movePoint.position = gameObject.transform.position;
     }
-    public void rotateLeft ()
+    public bool isObstacleForward()
     {
-        transform.Rotate(new Vector3(0, 0, 90), Space.World);
+        return Physics2D.OverlapCircle(movePoint.position + transform.up, 0.2f, whatStopMovement);
     }
+
+    public bool isObstacleBackward()
+    {
+        return Physics2D.OverlapCircle(movePoint.position - transform.up, 0.2f, whatStopMovement);
+    }
+
+    public bool isObstacleRight()
+    {
+        return Physics2D.OverlapCircle(movePoint.position + transform.right, 0.2f, whatStopMovement);
+    }
+
+    public bool isObstacleLeft()
+    {
+        return Physics2D.OverlapCircle(movePoint.position - transform.right, 0.2f, whatStopMovement);
+    }
+   
     public void moveForward()
     {
-        if (!Physics2D.OverlapCircle(movePoint.position + transform.up, 0.2f, whatStopMovement))
+        if (!isObstacleForward())
         {
             movePoint.position += transform.up;
         }
-        transform.position = Vector3.MoveTowards(transform.position, movePoint.position,1) ;
+        transform.position = Vector3.MoveTowards(transform.position, movePoint.position, 1);
     }
 
     public void moveBackward()
     {
-        if (!Physics2D.OverlapCircle(movePoint.position - transform.up, 0.2f, whatStopMovement))
+        if (!isObstacleBackward())
         {
             movePoint.position -= transform.up;
         }
         transform.position = Vector3.MoveTowards(transform.position, movePoint.position, 1);
     }
-    /*void Update()
+
+    public void moveRight()
     {
-        transform.position = Vector3.MoveTowards(transform.position, movePoint.position, movementSpeed * Time.deltaTime);
-        
-        if (Vector3.Distance(transform.position, movePoint.position) <= 0.05f)
+        if (!isObstacleRight())
         {
-           
-            if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) == 1f)
-            {
-                if (!Physics2D.OverlapCircle(movePoint.position + new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f), 0.2f, whatStopMovement))
-                {
-                    movePoint.position += new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f);
-                }
-            }
-            else
-            if (Mathf.Abs(Input.GetAxisRaw("Vertical")) == 1f)
-            {
-                if (!Physics2D.OverlapCircle(movePoint.position + new Vector3(0f, Input.GetAxisRaw("Vertical"), 0f), 0.2f, whatStopMovement))
-                {
-                    movePoint.position += new Vector3(0f, Input.GetAxisRaw("Vertical"), 0f);
-                }
-            }
+            movePoint.position += transform.right;
         }
-    }*/
+        transform.position = Vector3.MoveTowards(transform.position, movePoint.position, 1);
+    }
+
+    public void moveLeft()
+    {
+        if (!isObstacleLeft())
+        {
+            movePoint.position -= transform.right;
+        }
+        transform.position = Vector3.MoveTowards(transform.position, movePoint.position, 1);
+    }
+
+    
 }

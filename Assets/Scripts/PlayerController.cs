@@ -23,13 +23,33 @@ public class PlayerController : MonoBehaviour
         movement.moveBackward();
     }
 
-    public void rotateR()
+    public void moveR()
     {
-        movement.rotateRight();
+        movement.moveRight();
     }
 
-    public void rotateL ()
+    public void moveL ()
     {
-        movement.rotateLeft();
+        movement.moveLeft();
+    }
+
+    public bool isObstacleForward()
+    {
+        return movement.isObstacleForward();
+    }
+
+    public bool isObstacleBackward()
+    {
+        return movement.isObstacleBackward();
+    }
+
+    public bool isObstacleRight()
+    {
+        return movement.isObstacleRight();
+    }
+
+    public bool isObstacleLeft()
+    {
+        return movement.isObstacleLeft();
     }
 }

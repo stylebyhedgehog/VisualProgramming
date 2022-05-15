@@ -14,15 +14,12 @@ public class Connection : MonoBehaviour
         if (!Instance)
         {
             Instance = this;
+            settings = MongoClientSettings.FromConnectionString("mongodb+srv://fogdealer:123@cluster0.j1zxo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
+            client = new MongoClient(settings);
+            database = client.GetDatabase("clot");
         }
     }
-    void Start()
-    {
-        settings = MongoClientSettings.FromConnectionString("mongodb+srv://fogdealer:123@cluster0.j1zxo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
-        client = new MongoClient(settings);
-        database = client.GetDatabase("myFirstDatabase");
-    }
-
+ 
     public IMongoDatabase GetDatabase()
     {
         return database;

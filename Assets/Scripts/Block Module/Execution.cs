@@ -31,7 +31,7 @@ public class Execution : MonoBehaviour
     {
         foreach (Transform child in parent)
         {
-            if (child.gameObject.name != "mock" && child.gameObject.name != "bound")
+            if (child.gameObject.name != "mock")
             {
                 CodeBlock temp = child.gameObject.GetComponent<CodeBlock>();
                 if (temp)
@@ -68,7 +68,7 @@ public class Execution : MonoBehaviour
     {
         foreach (Transform child in parent)
         {
-            if (child.gameObject.name != "mock" && child.gameObject.name != "bound")
+            if (child.gameObject.name != "mock")
             {
                 CodeBlock temp = child.gameObject.GetComponent<CodeBlock>();
                 if (temp)

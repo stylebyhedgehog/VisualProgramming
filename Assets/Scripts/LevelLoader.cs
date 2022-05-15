@@ -6,9 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class LevelLoader : MonoBehaviour
 {
-    [SerializeField] int nextLevelIndex;
-
-    private void OnTriggerEnter2D(Collider2D collision)
+      private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject collisionGO = collision.gameObject;
         if (collisionGO.name == "Player")
@@ -19,6 +17,7 @@ public class LevelLoader : MonoBehaviour
 
     private void LoadScene()
     {
-        SceneManager.LoadScene(nextLevelIndex);
+        Repository_Level.Instance.ToNextLevel();
+        
     }
 }
