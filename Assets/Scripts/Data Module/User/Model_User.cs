@@ -7,9 +7,8 @@ public class Model_User
     public string Username { set; get; }
     public string Password { set; get; }
     public int Score { set; get; }
-    public int Level { set; get; }
-
+    public List<Available_Level> AvailableLevels { set; get; }
+    public int CurrentLevel { set; get; }
     public int CharacterId { set; get; }
-
     public List<int> AvailableCharactersId { set; get; }
 }

@@ -39,7 +39,8 @@ public class TabsUI : MonoBehaviour
         }
         tab.GetComponent<Canvas>().sortingOrder = 110;
 
-        tabOpened?.Invoke(activeTabIndex, index);
+        //tabOpened?.Invoke(activeTabIndex, index);
+        ManagerAvailableBlocks.Instance.HandleBlocksInTabs(activeTabIndex, index);
         
         //set new tab
         activeTab = tab;

@@ -8,7 +8,6 @@ public class Connection : MonoBehaviour
     private MongoClientSettings settings;
     private MongoClient client;
     private IMongoDatabase database;
-
     private void Awake()
     {
         if (!Instance)
@@ -19,20 +18,7 @@ public class Connection : MonoBehaviour
             database = client.GetDatabase("clot");
         }
     }
- 
-    public IMongoDatabase GetDatabase()
-    {
-        return database;
-    }
+    private void Start(){ DontDestroyOnLoad(gameObject);}
+    public IMongoDatabase GetDatabase(){ return database;}
 }
 
-/*       IMongoCollection<Model_User> userCollection = database.GetCollection<Model_User>("collectionName");
-       Model_User e = new Model_User();
-       e.name = "hope";
-       userCollection.InsertOne(e);
-       List<Model_User> userModelList = userCollection.Find(user => true).ToList();
-       Model_User[] userAsap = userModelList.ToArray();
-       foreach (Model_User asap in userAsap)
-       {
-           print(asap.name);
-       }*/

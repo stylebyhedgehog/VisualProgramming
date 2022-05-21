@@ -8,6 +8,7 @@ public class ExecutablePanel : MonoBehaviour, IDropHandler
     {
         if (eventData.pointerDrag.GetComponent<Draggable>())
         {
+            Debug.Log("dropped");
              GameObject innerGO = eventData.pointerDrag.GetComponent<Draggable>().go;
              innerGO.transform.SetParent(gameObject.transform);
         }

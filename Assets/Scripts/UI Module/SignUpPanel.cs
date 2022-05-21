@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SignUpPanel : MonoBehaviour
 {
@@ -13,8 +12,6 @@ public class SignUpPanel : MonoBehaviour
     [SerializeField] private Button signUp;
     [SerializeField] private Button toMainMenu;
 
-    [Header("Panels")]
-    [SerializeField] private GameObject mainMenuPanel;
 
     void Start()
     {
@@ -32,26 +29,13 @@ public class SignUpPanel : MonoBehaviour
     private void SignUp()
     {
         error.text = "";
-        Authentication_Result result = Service_Auth.SignUp(usesrname.text, password.text, repeatPassword.text);
-        switch (result)
+        string result = Controller_Auth.TryToSignUp(usesrname.text, password.text, repeatPassword.text);
+        if (result == "Регистрация пройдена")
         {
-            case (Authentication_Result.SUCCESS_SIGN_UP):
-                ToMainMenu();
-                break;
-            case (Authentication_Result.ERROR_SIGN_UP_EXISTS):
-                error.text = "Логин занят";
-                break;
-            case (Authentication_Result.ERROR_SIGN_UP_LENGTH):
-                error.text = "Логин и пароль должны быть больше 6 символов";
-                break;
-            case (Authentication_Result.ERROR_SIGN_UP_PASSWORD_MATCHING):
-                error.text = "Пароли не совпадают";
-                break;
-            case (Authentication_Result.ERROR_SIGN_UP_DATABASE):
-                error.text = "Попробуйте еще раз";
-                break;
-            default:
-                break;
+            ToMainMenu();
+        }else
+        {
+            error.text = result;
         }
         
     }
@@ -60,7 +44,6 @@ public class SignUpPanel : MonoBehaviour
     private void ToMainMenu()
     {
         error.text = "";
-        gameObject.SetActive(false);
-        mainMenuPanel.SetActive(true);
+        SceneManager.LoadScene("StartScene");
     }
 }

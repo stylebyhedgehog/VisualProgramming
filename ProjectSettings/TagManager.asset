@@ -10,6 +10,10 @@ TagManager:
   - Condition_Basis
   - Condition_Middle
   - Condition_Completion
+  - ExecutionPanel
+  - OpenCode
+  - ExecuteCode
+  - AvailableBlocks
   layers:
   - Default
   - TransparentFX

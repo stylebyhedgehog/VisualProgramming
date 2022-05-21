@@ -1,11 +1,11 @@
 using UnityEngine;
-using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Controls : MonoBehaviour
 {
     Vector3 touchStart;
     public float zoomOutMin = 1;
-    public float zoomOutMax = 5;
+    public float zoomOutMax = 7;
 
     private bool canInteract=true;
 
@@ -13,6 +13,18 @@ public class Controls : MonoBehaviour
     {
         CodePanel.closeBtnClicked += allowInteraction;
         Navigation.codePanelOpened += disableInteraction;
+    }
+
+    private void OnLevelWasLoaded(int level)
+    {
+        if (!SceneManager.GetSceneByBuildIndex(level).name.StartsWith("Level"))
+        {
+            disableInteraction();
+        }
+        else
+        {
+            allowInteraction();
+        }
     }
 
     private void disableInteraction()

@@ -3,14 +3,15 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Level", menuName = "ScriptableObjects/Level")]
+[CreateAssetMenu(fileName = "Level", menuName = "ScriptableObjects/Levels")]
 public class Model_Level:ScriptableObject
 {
     public int Index;
     public string Title;
-    public string Theory;
-    public Vector3 StartPosition;
+    public List<Model_Theory> Theory;
     public int Reward;
-    public bool IsAvailable;
-    public List<Block_Type_Action> newBlocks;
+    public List<Block_Type_Action> availableBlocks;
+    public List<Block_Type_Purpose> requiredBlocks;
+    public Vector3 StartPosition;
+    public string SceneName;
 }

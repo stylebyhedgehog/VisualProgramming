@@ -17,7 +17,7 @@ public class LevelButton : MonoBehaviour
 
     private void LoadLevel()
     {
-        Repository_Level.Instance.ToLevel(lvlIndex);
+        Controller_Level.ToLevel(lvlIndex);
     }
 
     public void setLevelIndex(int lvlIndex)

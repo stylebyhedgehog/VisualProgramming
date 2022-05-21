@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Navigation : MonoBehaviour
 {
@@ -14,22 +15,30 @@ public class Navigation : MonoBehaviour
     public static Action codePanelOpened;
 
     [SerializeField] private Button openMainMenuBtn;
-    [SerializeField] private GameObject mainMenu;
+
+    [SerializeField] private Text coins;
+    [SerializeField] private Button helpButton;
+    [SerializeField] private Helper helper;
+  
+
     void Start()
     {
+        coins.text = ScorePattern.ConvertToString(Controller_User.GetCurrentUser().Score);
         InitButtons();
-        CodePanel.closeBtnClicked += showLTNavigationGroup;
+        //CodePanel.closeBtnClicked += showLTNavigationGroup;
     }
+
 
     private void InitButtons()
     {
-        openCodePanelBtn.onClick.AddListener(()=> onCodePanelButtonClicked());
+        openCodePanelBtn.onClick.AddListener(() => onCodePanelButtonClicked());
         openMainMenuBtn.onClick.AddListener(() => openMainMenu());
+        helpButton.onClick.AddListener(() => helper.ShowHelpInfo());
     }
-    
+
     private void openMainMenu()
     {
-        mainMenu.SetActive(true);
+        SceneManager.LoadScene("MainMenu");
     }
 
     private void onCodePanelButtonClicked()
@@ -39,10 +48,11 @@ public class Navigation : MonoBehaviour
         codePanelOpened?.Invoke();
     }
 
-    private void showLTNavigationGroup()
+   /* private void showLTNavigationGroup()
     {
         navigationUI.SetActive(true);
-    }
+    }*/
 
-    
+
+
 }

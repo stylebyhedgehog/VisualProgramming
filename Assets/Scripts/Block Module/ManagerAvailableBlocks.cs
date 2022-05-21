@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,32 +22,26 @@ public class ManagerAvailableBlocks : MonoBehaviour
     private void Start()
     {
         Draggable.startBlockDropped += onStartBlockDropped;
-        TabsUI.tabOpened += HandleBlocksInTabs;
-        Repository_Level.newLevelUnlocked += onNewLevelUnlocked;
-        InitializeBlocks();
-        SaveSystem.userLoggedIn += InitializeBlocks;
+        //TabsUI.tabOpened += HandleBlocksInTabs;
+        Controller_Level.newLevelUnlocked += onNewLevelUnlocked;
+        InitializeAvailableBlocks();
     }
+ 
 
-    private void InitializeBlocks()
+    private void InitializeAvailableBlocks()
     {
-
-        int userLevel = SaveSystem.Instance.getCurrentUser().Level;
-        foreach (Model_Level level in Repository_Level.Instance.GetAll())
+        Model_User current_user = Controller_User.GetCurrentUser();
+        int maxLevelIndex = current_user.AvailableLevels.Max(z=>z.Index);
+        Model_Level maxLevel = Controller_Level.GetLevelByIndex(maxLevelIndex);
+        foreach (Block_Type_Action action in maxLevel.availableBlocks)
         {
-            if (userLevel >= level.Index)
-            {
-                foreach (Block_Type_Action action in level.newBlocks)
-                {
-                    AddBlock(action);
-                }
-
-            }
+            AddBlock(action);
         }
     }
 
-    private void onNewLevelUnlocked(int level)
+    private void onNewLevelUnlocked(Model_Level level)
     {
-        foreach (Block_Type_Action action in Repository_Level.Instance.GetLevelByIndex(level).newBlocks)
+        foreach (Block_Type_Action action in level.availableBlocks)
         {
             AddBlock(action);
         }

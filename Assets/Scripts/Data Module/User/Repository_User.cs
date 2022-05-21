@@ -2,62 +2,44 @@
 using UnityEngine;
 using MongoDB.Driver;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public static class Repository_User 
 {
-    private static IMongoDatabase database = Connection.Instance.GetDatabase();
-    private static IMongoCollection<Model_User> userCollection = database.GetCollection<Model_User>("users");
+    static IMongoDatabase database = Connection.Instance.GetDatabase();
+    static IMongoCollection<Model_User> userCollection = database.GetCollection<Model_User>("users");
 
-
-    public static List<Model_User> GetAllUsers()
+    public static Model_User CreateNew(string username, string password)
     {
-        List<Model_User> allUsers = userCollection.Find(_ => true).ToList();
-        return allUsers;
-    } 
-
-    public static Model_User GetUserByUsername(string username)
-    {
-        Model_User user = null;
-        var filter = Builders<Model_User>.Filter.Eq("Username", username);
-        user = userCollection.Find(filter).FirstOrDefault();
+        Model_User user = new Model_User();
+        user.Username = username;
+        user.Password = Cryptography.Encrypt(password);
+        user.Score = 0;
+        user.CurrentLevel = 1;
+        Available_Level available_Level = new Available_Level() { Index = 1, Rating = 0};
+        user.AvailableLevels = new List<Available_Level>() { available_Level };
+        user.CharacterId = 1;
+        user.AvailableCharactersId = new List<int>() { user.CharacterId };
         return user;
     }
-
-    public static void AddUser(Model_User user)
+    public static List<Model_User> GetAll()
     {
+        List<Model_User> allUsers = userCollection.Find(_ => true)
+            .SortByDescending(e => e.Score).ToList();
+        return allUsers;
+    } 
+    public static Model_User GetByUsername(string username)
+    {
+        var filter = Builders<Model_User>.Filter.Eq("Username", username);
+        return userCollection.Find(filter).FirstOrDefault();
+    }
+    public static void Add(Model_User user)
+    {
+        Debug.Log(user.Username);
         userCollection.InsertOne(user);
     }
-
-    public static void addScore(int amount)
+    public static void Update(Model_User userToUpd)
     {
-        Model_User userUpd = SaveSystem.Instance.getCurrentUser();
-        userUpd.Score += amount;
-        SaveSystem.Instance.updateUser(userUpd);
-        userCollection.FindOneAndReplace(user => user._id == userUpd._id, userUpd);
-    }
-
-    public static void changeLevel(int level)
-    {
-        Model_User userUpd = SaveSystem.Instance.getCurrentUser();
-        userUpd.Level = level;
-        SaveSystem.Instance.updateUser(userUpd);
-        userCollection.FindOneAndReplace(user => user._id == userUpd._id, userUpd);
-    }
-
-    public static void changeCharacter(int id)
-    {
-        Model_User userUpd = SaveSystem.Instance.getCurrentUser();
-        userUpd.CharacterId = id;
-        SaveSystem.Instance.updateUser(userUpd);
-        userCollection.FindOneAndReplace(user => user._id == userUpd._id, userUpd);
-    }
-
-
-    public static void addCharacter(int id)
-    {
-        Model_User userUpd = SaveSystem.Instance.getCurrentUser();
-        userUpd.AvailableCharactersId.Add(id);
-        SaveSystem.Instance.updateUser(userUpd);
-        userCollection.FindOneAndReplace(user => user._id == userUpd._id, userUpd);
+        userCollection.FindOneAndReplace(user => user._id == userToUpd._id, userToUpd);
     }
 }

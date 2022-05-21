@@ -14,8 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Index: 3
   Title: c
-  Theory: c
-  StartPosition: {x: -4, y: -4, z: 0}
+  Theory:
+  - Content: "\u0422\u044B \u0443\u0436\u0435 \u0437\u0430\u043C\u0435\u0442\u0438\u043B?
+      \u0412 \u0440\u0430\u0441\u043F\u043E\u0440\u044F\u0436\u0435\u043D\u0438\u0438
+      \u043D\u043E\u0432\u044B\u0439 \u0431\u043B\u043E\u043A"
+    SelectionPoint: 
   Reward: 300
-  IsAvailable: 0
-  newBlocks: 02000000
+  availableBlocks: 00000000010000000400000002000000
+  requiredBlocks: 01000000
+  StartPosition: {x: -2, y: -4, z: 0}
+  SceneName: Level3

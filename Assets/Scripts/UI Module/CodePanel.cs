@@ -11,6 +11,10 @@ public class CodePanel : MonoBehaviour
     [SerializeField] private Button closeBtn;
     public static Action executeBtnClicked;
     public static Action closeBtnClicked;
+
+    [SerializeField] private GameObject navigationUi;
+   
+
     void Start()
     {
         executeBtn.onClick.AddListener(() => executeBtnClickedAction());
@@ -19,10 +23,11 @@ public class CodePanel : MonoBehaviour
 
     private void executeBtnClickedAction()
     {
-        executeBtnClicked?.Invoke();
+        GameObject.FindGameObjectWithTag("ExecutionPanel").transform.Find("start").gameObject.GetComponent<Execution>().onStartButtonClick();
     }
     private void closeBtnClickedAction()
     {
+        navigationUi.SetActive(true);
         gameObject.SetActive(false);
         closeBtnClicked?.Invoke();
     }

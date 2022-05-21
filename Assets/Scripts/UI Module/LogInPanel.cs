@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LogInPanel : MonoBehaviour
 {
@@ -14,9 +15,6 @@ public class LogInPanel : MonoBehaviour
     [SerializeField] private Button toSignUp;
     [SerializeField] private Button toMainMenu;
 
-    [Header("Panels")]
-    [SerializeField] private GameObject mainMenuPanel;
-    [SerializeField] private GameObject signUpPanel;
 
     void Start()
     {
@@ -34,32 +32,25 @@ public class LogInPanel : MonoBehaviour
   
     private void LogIn()
     {
-        error.text = "";
-        Authentication_Result result = Service_Auth.LogIn(usesrname.text, password.text, rememberMe.isOn);
-        switch (result)
+        string result = Controller_Auth.TryToLogIn(usesrname.text, password.text, rememberMe.isOn);
+        if (result == "Авторизация пройдена")
         {
-            case (Authentication_Result.SUCCESS_LOG_IN):
-                ToMainMenu();
-                break;
-            case (Authentication_Result.ERROR_LOG_IN_INCORRECT_DATA):
-                error.text = "Неправильные данные";
-                break;
-            default:
-                break;
+            ToMainMenu();
+        } else
+        {
+            error.text = result;
         }
     }
 
     private void ToSignUp()
     {
         error.text = "";
-        gameObject.SetActive(false);
-        signUpPanel.SetActive(true);
+        SceneManager.LoadScene("SignUpScene");
     }
 
     private void ToMainMenu()
     {
         error.text = "";
-        gameObject.SetActive(false);
-        mainMenuPanel.SetActive(true);
+        SceneManager.LoadScene("StartScene");
     }
 }

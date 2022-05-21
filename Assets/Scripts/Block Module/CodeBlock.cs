@@ -6,6 +6,7 @@ public abstract class CodeBlock: MonoBehaviour
 {
     CodeBlock previousBlock;
     CodeBlock nextBlock;
+
     public virtual void makeAction() {  }
 
     public CodeBlock getNextBlock()

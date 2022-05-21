@@ -37,13 +37,16 @@ public class Blocks_Source : MonoBehaviour
 
     private Block getByTypeAction(Block_Type_Action action)
     {
+       
         foreach (Block block in blocks_1.Concat(blocks_2).Concat(blocks_3))
         {
             if (block.type == action)
             {
+
                 return block;
             }
         }
+
         return null;
         
     }
