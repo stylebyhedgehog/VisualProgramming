@@ -6,8 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class PersonalRating : MonoBehaviour
 {
+    [SerializeField] private Image image;
+    [SerializeField] private Text username;
     [SerializeField] private Text maxLevel;
-    [SerializeField] private Text avgRating;
+    [SerializeField] private Text sumRating;
     [SerializeField] private Transform rowsContainer;
     [SerializeField] private GameObject personalRatingRowPrefab;
     [SerializeField] private Button toMainMenu;
@@ -19,9 +21,12 @@ public class PersonalRating : MonoBehaviour
 
     private void InitializeData()
     {
-        maxLevel.text = Controller_User.GetUserMaxLevel().ToString();
-        avgRating.text = Controller_User.GetCurrentUserAverageRating().ToString();
-        foreach (Available_Level level in Controller_User.GetCurrentUser().AvailableLevels)
+        Model_User currentUser = Controller_User.GetCurrentUser();
+        image.sprite = Repository_Characters.Instance.GetByIndex(currentUser.CharacterId).CharacterSprite;
+        username.text = currentUser.Username;
+        maxLevel.text = Controller_User.GetUserMaxLevel(currentUser).ToString();
+        sumRating.text = Controller_User.GetUserSumRating(currentUser).ToString();
+        foreach (Available_Level level in currentUser.AvailableLevels)
         {
             GameObject newRow = Instantiate(personalRatingRowPrefab, rowsContainer);
             PersonalRatingElement element = newRow.GetComponent<PersonalRatingElement>();

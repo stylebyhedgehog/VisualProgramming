@@ -10,7 +10,7 @@ public class Controller_Level
     public static Action<Model_Level> levelChanged;
     public static Action<Model_Level> levelLoaded;
 
-    public static void ToNextLevel(bool mustLoadLevel)
+    public static void ToNextLevel()
     {
         Model_Level currentLevel = Repository_Level.Instance.GetCurrentLevel();
         Model_Level nextLevel = Repository_Level.Instance.GetNextLevel();

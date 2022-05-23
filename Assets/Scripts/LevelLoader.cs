@@ -21,7 +21,7 @@ public class LevelLoader : MonoBehaviour
     {
         rewardPanel.SetActive(true);
         rewardPanel.GetComponent<RewardPanel>().Activate();
-        Controller_Level.ToNextLevel(false);
+        Controller_Level.ToNextLevel();
 
     }
 }

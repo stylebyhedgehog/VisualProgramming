@@ -72,18 +72,9 @@ public class Controller_User
         Repository_User.Update(userUpd);
     }
 
-    public static void UnlockNewCharacterForUser(int characterId)
+    public static void UpdateUser(Model_User user)
     {
-        Model_User userUpd = GetCurrentUser();
-        userUpd.AvailableCharactersId.Add(characterId);
-        Repository_User.Update(userUpd);
-    }
-
-    public static void ChangeCurrentCharacterForUser(int characterId)
-    {
-        Model_User userUpd = GetCurrentUser();
-        userUpd.CharacterId = characterId;
-        Repository_User.Update(userUpd);
+        Repository_User.Update(user);
     }
 
     public static bool IsLevelAlreadyUnlocked(int level)
@@ -92,26 +83,29 @@ public class Controller_User
         return user.AvailableLevels.Any(l => l.Index == level );
     }
 
-    public static int GetUserMaxLevel()
+    public static int GetUserMaxLevel(Model_User user)
     {
-        return GetCurrentUser().AvailableLevels.Last().Index;
+        return user.AvailableLevels.Last().Index;
     }
 
-    public static int GetCurrentUserRatingForLevel(int level)
+    public static int GetUserRatingForLevel(Model_User user, int level)
     {
-        Model_User user = GetCurrentUser();
         Available_Level lvl = user.AvailableLevels.Find(l => l.Index == level);
         return lvl.Rating;
     }
-    public static float GetCurrentUserAverageRating()
+    public static float GetUserSumRating(Model_User user)
     {
-        Model_User user = GetCurrentUser();
         return GetUserAvarageRating(user);
     }
 
     public static float GetUserAvarageRating(Model_User user)
     {
         float ratingSum = user.AvailableLevels.Sum(l => l.Rating);
-        return (float)Math.Round((Double)(ratingSum / (user.AvailableLevels.Count -1)),1);
+        return ratingSum;
+        //if (ratingSum == 0)
+        //{
+        //    return 0;
+        //}
+        //return (float)Math.Round((Double)(ratingSum / (user.AvailableLevels.Count -1)),1);
     }
 }

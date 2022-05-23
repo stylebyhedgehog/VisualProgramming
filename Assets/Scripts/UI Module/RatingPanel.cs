@@ -23,6 +23,7 @@ public class RatingPanel : MonoBehaviour
         {
             GameObject obj = Instantiate(prefab, holder);
             RatingElement ratingEl = obj.GetComponent<RatingElement>();
+            ratingEl.SetImage(Repository_Characters.Instance.GetByIndex(user.CharacterId).CharacterSprite);
             ratingEl.SetUsername(user.Username);
             ratingEl.SetScore(Controller_User.GetUserAvarageRating(user).ToString());
             if (user.Username == Controller_Local.GetSavedUserUsername())

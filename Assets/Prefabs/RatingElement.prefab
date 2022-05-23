@@ -251,7 +251,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   username: {fileID: 4692859622572705358}
   score: {fileID: 8968474698450725122}
-  image: {fileID: 6631073218527995695}
+  image: {fileID: 6631073219946749718}
 --- !u!1 &6631073219946749712
 GameObject:
   m_ObjectHideFlags: 0

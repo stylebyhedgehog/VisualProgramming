@@ -4,8 +4,8 @@ using UnityEngine.SceneManagement;
 public class Controls : MonoBehaviour
 {
     Vector3 touchStart;
-    public float zoomOutMin = 1;
-    public float zoomOutMax = 7;
+    public float zoomOutMin = 4;
+    public float zoomOutMax = 12;
 
     private bool canInteract=true;
 

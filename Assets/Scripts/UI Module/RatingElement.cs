@@ -14,6 +14,11 @@ public class RatingElement : MonoBehaviour
         username.text = text;
     }
 
+    public void SetImage(Sprite sprite)
+    {
+        image.sprite = sprite;
+    }
+
     public void SetScore(string text)
     {
         score.text = text;

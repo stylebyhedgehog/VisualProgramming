@@ -18,7 +18,7 @@ public class Helper : MonoBehaviour
     void Start()
     {
         currentLevel = Controller_Level.GetCurrentLevel();
-        if (Controller_User.GetCurrentUserRatingForLevel(currentLevel.Index) == 0)
+        if (Controller_User.GetUserRatingForLevel(Controller_User.GetCurrentUser(),currentLevel.Index) == 0)
         {
             ShowHelpInfo();
         }

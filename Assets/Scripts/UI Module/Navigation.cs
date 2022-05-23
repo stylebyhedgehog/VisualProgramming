@@ -23,12 +23,14 @@ public class Navigation : MonoBehaviour
 
     void Start()
     {
+        openCodePanelBtn.Select();
         coins.text = ScorePattern.ConvertToString(Controller_User.GetCurrentUser().Score);
         InitButtons();
         //CodePanel.closeBtnClicked += showLTNavigationGroup;
     }
 
-
+ 
+  
     private void InitButtons()
     {
         openCodePanelBtn.onClick.AddListener(() => onCodePanelButtonClicked());

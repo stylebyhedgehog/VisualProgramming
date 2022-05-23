@@ -10,12 +10,15 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        if (!Instance)
+        {
+            Instance = this;
+        }
+        gameObject.GetComponent<SpriteRenderer>().sprite = Repository_Characters.Instance.GetByIndex(Controller_User.GetCurrentUser().CharacterId).CharacterSprite;
     }
 
     public void moveF()
     {
-        Debug.Log("eeeee");
         movement.moveForward();
     }
 
