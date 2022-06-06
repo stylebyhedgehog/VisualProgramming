@@ -9,4 +9,8 @@ public class Draggable_Single : Draggable
     {
         base.OnEndDrag(eventData);
     }
+    public override void DuplicateBehaviour()
+    {
+        base.DuplicateBehaviour();
+    }
 }

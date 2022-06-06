@@ -10,14 +10,20 @@ public class Execution : MonoBehaviour
     public static Action executionEnded;
     public static Action executionStarted;
 
-    private CodeBlock startBlock;
+    [SerializeField]private CodeBlock startBlock;
     private CodeBlock currentBlock;
     private bool isExecuting = false;
 
+    private void Awake()
+    {
+        if (!Instance)
+        {
+            Instance = this;
+        }
+    }
 
 
-
-    public void onStartButtonClick()
+    public void startExecution()
     {
         if (!isExecuting)
         {
@@ -25,9 +31,8 @@ public class Execution : MonoBehaviour
             Repository_Level.Instance.isRequireBlockUsed = false;
             executionStarted?.Invoke();
             isExecuting = true;
-            startBlock = gameObject.GetComponent<CodeBlock>();
             currentBlock = startBlock;
-            queryActions(gameObject.transform);
+            queryActions(startBlock.gameObject.transform);
             Coroutine coroutine = StartCoroutine(Execute());
         }
     }
@@ -73,6 +78,7 @@ public class Execution : MonoBehaviour
         {
             player.GetComponent<Movement>().setStartPoin(Controller_Level.GetCurrentLevel());
         }
+        Alert.Instance.showText("Необходимо достичь портала");
      
     }
 

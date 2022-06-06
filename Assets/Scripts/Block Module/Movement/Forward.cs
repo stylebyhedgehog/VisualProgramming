@@ -6,8 +6,6 @@ public class Forward : CodeBlock
 {
     public override void makeAction()
     {
-        Debug.Log("forward");
         PlayerController.Instance.moveF();
     }
-   
 }

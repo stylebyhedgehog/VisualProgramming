@@ -13,4 +13,8 @@ public class Draggable_Composite : Draggable
             go.transform.Find("end").gameObject.SetActive(true);
         }
     }
+    public override void DuplicateBehaviour()
+    {
+        base.DuplicateBehaviour();
+    }
 }

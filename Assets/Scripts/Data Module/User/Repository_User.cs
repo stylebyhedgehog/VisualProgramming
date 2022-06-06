@@ -13,11 +13,17 @@ public static class Repository_User
     {
         Model_User user = new Model_User();
         user.Username = username;
+        
         user.Password = Cryptography.Encrypt(password);
         user.Score = 0;
         user.CurrentLevel = 1;
         Available_Level available_Level = new Available_Level() { Index = 1, Rating = 0};
         user.AvailableLevels = new List<Available_Level>() { available_Level };
+        if (username == "admin")
+        {
+            Available_Level available_Level2 = new Available_Level() { Index = 99, Rating = 5 };
+            user.AvailableLevels.Add(available_Level2);
+        }
         user.CharacterId = 1;
         user.AvailableCharactersId = new List<int>() { user.CharacterId };
         return user;

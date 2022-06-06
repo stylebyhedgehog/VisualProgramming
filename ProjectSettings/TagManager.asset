@@ -14,6 +14,7 @@ TagManager:
   - OpenCode
   - ExecuteCode
   - AvailableBlocks
+  - RewardWindow
   layers:
   - Default
   - TransparentFX

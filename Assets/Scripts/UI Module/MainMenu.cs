@@ -10,6 +10,8 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button levels;
     [SerializeField] private Button rating;
     [SerializeField] private Button shop;
+    [SerializeField] private Button settings;
+    [SerializeField] private Button testMode;
 
     [SerializeField] private Button logOut;
 
@@ -32,12 +34,13 @@ public class MainMenu : MonoBehaviour
         levels.onClick.AddListener(() => OpenLevelsPanel());
         rating.onClick.AddListener(() => OpenRatingPanel());
         shop.onClick.AddListener(() => OpenShopPanel());
+        settings.onClick.AddListener(() => OpenSettingsPanel());
+        testMode.onClick.AddListener(() => ToTestMode());
     }
 
     private void StartGame()
     {
         Controller_Level.ToCurrentLevel();
-        SceneManager.LoadScene(Controller_Level.GetCurrentLevel().SceneName);
     }
     private void LogOut()
     {
@@ -59,5 +62,13 @@ public class MainMenu : MonoBehaviour
     private void OpenShopPanel()
     {
         SceneManager.LoadScene("ShopScene");
+    }
+    private void OpenSettingsPanel()
+    {
+        SceneManager.LoadScene("SettingsScene");
+    }
+    private void ToTestMode()
+    {
+        Controller_Level.ToLevel(99);
     }
 }
